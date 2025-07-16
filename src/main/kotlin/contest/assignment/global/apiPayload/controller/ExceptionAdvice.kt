@@ -1,4 +1,4 @@
-package contest.assignment.global.apiPayload
+package contest.assignment.global.apiPayload.controller
 
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.validation.ConstraintViolationException
