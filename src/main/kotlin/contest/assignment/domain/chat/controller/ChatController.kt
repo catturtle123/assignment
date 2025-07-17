@@ -1,6 +1,7 @@
 package contest.assignment.domain.chat.controller
 
 import contest.assignment.domain.chat.dto.request.CreateChatRequest
+import contest.assignment.domain.chat.dto.response.ChatListResponseDTO
 import contest.assignment.domain.chat.dto.response.CreateChatResponse
 import contest.assignment.domain.chat.service.ChatService
 import contest.assignment.domain.user.entity.User
@@ -27,5 +28,16 @@ class ChatController(
     ): CustomResponse<String> {
         chatService.deleteThread(threadId)
         return CustomResponse.ok("삭제 성공")
+    }
+
+    @GetMapping("/threads/{threadId}/chats")
+    fun getChatList(
+        @AuthUser user: User,
+        @RequestParam page: Int = 0,
+        @RequestParam size: Int = 10,
+        @RequestParam sort: String = "DESC",
+        @PathVariable threadId: Long,
+    ): ChatListResponseDTO {
+        return chatService.getUserChats(user, page, size, sort, threadId)
     }
 }

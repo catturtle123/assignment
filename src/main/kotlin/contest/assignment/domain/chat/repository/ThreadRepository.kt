@@ -8,7 +8,4 @@ import java.util.*
 interface ThreadRepository: JpaRepository<Thread, Long> {
 
     fun findByUser(user: User): Optional<Thread>
-
-    fun existsByUser(user: User): Boolean
-
 }
