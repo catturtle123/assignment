@@ -37,7 +37,7 @@ data class CustomResponse<T>(
             return of(false, code.message, code.code, result)
         }
 
-        private fun <T> of(isSuccess: Boolean, message: String, code: String, result: T): CustomResponse<T> {
+        fun <T> of(isSuccess: Boolean, message: String, code: String, result: T): CustomResponse<T> {
             return CustomResponse(isSuccess, message, code, result)
         }
     }

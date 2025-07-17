@@ -5,6 +5,10 @@ spring:
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
+  jwt:
+    secret: ${JWT_SECRET_KEY}
+    access-token-validity: ${JWT_ACCESS_TOKEN_TIME}
+
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
