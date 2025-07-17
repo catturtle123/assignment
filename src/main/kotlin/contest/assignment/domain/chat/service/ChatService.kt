@@ -10,6 +10,7 @@ import contest.assignment.domain.user.entity.User
 import contest.assignment.global.feign.GPTClient
 import contest.assignment.global.feign.GPTRequest
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.time.Duration
 import java.time.LocalDateTime
 
@@ -20,6 +21,7 @@ class ChatService(
     private val gptClient: GPTClient
 ) {
 
+    @Transactional
     fun createChat(createChatRequest: CreateChatRequest, user: User): CreateChatResponse {
 
         val existingThreads = threadRepository.findByUser(user)

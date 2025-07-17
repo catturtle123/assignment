@@ -13,6 +13,7 @@ import contest.assignment.global.security.util.JwtUtil
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class UserService(
@@ -21,6 +22,7 @@ class UserService(
     private val jwtUtil: JwtUtil
 ) {
 
+    @Transactional
     fun createUser(
         createUserDTO: CreateUserDTO
     ): CreateUserResultDTO {
@@ -38,6 +40,7 @@ class UserService(
         return CreateUserResultDTO.from(savedUser)
     }
 
+    @Transactional(readOnly = true)
     fun login(loginDTO: LoginDTO): LoginResultDTO {
         val user: User = userRepository.findByEmail(loginDTO.email)
             .orElseThrow { UsernameNotFoundException(GeneralErrorCode.MEMBER_NOT_FOUND.message) }
@@ -55,6 +58,7 @@ class UserService(
         return LoginResultDTO(id = user.id, accessToken)
     }
 
+    @Transactional(readOnly = true)
     fun findById(id: Long): User {
         return userRepository.findById(id).get()
     }
