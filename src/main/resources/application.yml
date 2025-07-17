@@ -29,3 +29,7 @@ logging:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
+external:
+  gpt:
+    url: ${GPT_URL}
+    key: ${GPT_KEY}

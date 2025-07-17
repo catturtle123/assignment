@@ -55,4 +55,8 @@ class UserService(
         return LoginResultDTO(id = user.id, accessToken)
     }
 
+    fun findById(id: Long): User {
+        return userRepository.findById(id).get()
+    }
+
 }
