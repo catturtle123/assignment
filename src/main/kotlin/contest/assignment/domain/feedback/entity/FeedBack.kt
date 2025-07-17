@@ -19,5 +19,5 @@ class FeedBack(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
-): BaseEntity() {
+    ) : BaseEntity() {
 }

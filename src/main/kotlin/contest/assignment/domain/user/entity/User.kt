@@ -7,7 +7,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "users")
-class User (
+class User(
 
     @Column
     val email: String,
@@ -23,7 +23,7 @@ class User (
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
-): BaseEntity() {
+) : BaseEntity() {
     companion object {
         fun of(createUserDTO: CreateUserDTO): User {
             return User(createUserDTO.email, createUserDTO.password, createUserDTO.name, createUserDTO.authority)

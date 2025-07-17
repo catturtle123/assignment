@@ -1,7 +1,9 @@
 package contest.assignment.domain.chat.service
 
 import contest.assignment.domain.chat.dto.request.CreateChatRequest
-import contest.assignment.domain.chat.dto.response.*
+import contest.assignment.domain.chat.dto.response.ChatListResponseDTO
+import contest.assignment.domain.chat.dto.response.ChatResponseDTO
+import contest.assignment.domain.chat.dto.response.CreateChatResponse
 import contest.assignment.domain.chat.entity.Chat
 import contest.assignment.domain.chat.entity.Thread
 import contest.assignment.domain.chat.repository.ChatRepository
@@ -12,14 +14,11 @@ import contest.assignment.global.apiPayload.code.GeneralErrorCode
 import contest.assignment.global.apiPayload.exception.GeneralException
 import contest.assignment.global.feign.GPTClient
 import contest.assignment.global.feign.GPTRequest
-import contest.assignment.global.security.AuthUser
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestParam
 import java.time.Duration
 import java.time.LocalDateTime
 
@@ -72,7 +71,7 @@ class ChatService(
 
     @Transactional
     fun deleteThread(threadId: Long) {
-        val existingThreads: Thread = threadRepository.findById(threadId).orElseThrow{
+        val existingThreads: Thread = threadRepository.findById(threadId).orElseThrow {
             IllegalArgumentException("thread가 존재하지 않습니다")
         }
 
@@ -82,16 +81,17 @@ class ChatService(
     }
 
     @Transactional(readOnly = true)
-    fun getUserChats(user: User,
-                     page: Int,
-                     size: Int,
-                     sort: String,
-                     threadId: Long
+    fun getUserChats(
+        user: User,
+        page: Int,
+        size: Int,
+        sort: String,
+        threadId: Long
     ): ChatListResponseDTO {
         val sortDirection = if (sort.uppercase() == "ASC") Sort.Direction.ASC else Sort.Direction.DESC
         val pageable = PageRequest.of(page, size, Sort.by(sortDirection, "createdAt"))
 
-        val thread = threadRepository.findById(threadId).orElseThrow{
+        val thread = threadRepository.findById(threadId).orElseThrow {
             GeneralException(GeneralErrorCode._BAD_REQUEST)
         }
 
@@ -101,11 +101,11 @@ class ChatService(
             throw GeneralException(GeneralErrorCode.BAD_CREDENTIALS)
         }
 
-        val chatList: List<ChatResponseDTO> = threads.map { chat -> ChatResponseDTO(chat.id, chat.question, chat.answer, chat.createdAt) }.toList()
+        val chatList: List<ChatResponseDTO> =
+            threads.map { chat -> ChatResponseDTO(chat.id, chat.question, chat.answer, chat.createdAt) }.toList()
 
         return ChatListResponseDTO(page, size, threads.totalElements, threads.totalPages, chatList)
     }
-
 
 
 }
