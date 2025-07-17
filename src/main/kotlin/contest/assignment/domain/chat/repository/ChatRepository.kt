@@ -1,7 +1,10 @@
 package contest.assignment.domain.chat.repository
 
 import contest.assignment.domain.chat.entity.Chat
+import contest.assignment.domain.chat.entity.Thread
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface ChatRepository: JpaRepository<Chat, Long> {
+
+    fun deleteAllByThread(thread: Thread)
 }

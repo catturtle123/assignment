@@ -61,4 +61,16 @@ class ChatService(
         )
     }
 
+    @Transactional
+    fun deleteThread(threadId: Long) {
+        val existingThreads: Thread = threadRepository.findById(threadId).orElseThrow{
+            IllegalArgumentException("thread가 존재하지 않습니다")
+        }
+
+        chatRepository.deleteAllByThread(existingThreads)
+
+        threadRepository.delete(existingThreads)
+    }
+
+
 }
